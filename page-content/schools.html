@@ -40,6 +40,7 @@
 
 <script>
   const checkbox = document.querySelector('.form-check').MDCFormCheck;
+  var count = 0;
   var primaryCategories = [{
     "primary_category": "ES"
   }, {
@@ -98,6 +99,7 @@
     $.get(url, (response) => {
       console.log(response);
       $.each(response, (i, v) => {
+        count +=1;
         // clone template
         let clone = $("ul#listSchools .mdc-list-item.template").clone();
 
@@ -120,5 +122,6 @@
 
       });
     });
+    document.getElementById("resultCount").innerHTML = count;
   }
 </script>
