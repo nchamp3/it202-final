@@ -8,7 +8,7 @@ In this practical portion, you'll make a number of updates to this app.
 
 2. Update the color scheme for the app to use a different color for the top bar and buttons.   
 
-3. The APOD page makes a call to NASA's Astronomy Picture of the Day API.  Update the page to display the picture in a card like the one at https://material-components.github.io/material-components-web-catalog/#/component/card?type=basic . Display the image (use the url property), title, copyright, and date information. 
+3. The APOD page makes a call to NASA's Astronomy Picture of the Day API.  Update the page to display the picture in a card like the one at https://material-components.github.io/material-components-web-catalog/#/component/card?type=basic . Display the image (use the url property), title, copyright, and date information.
 
 4. Replace the bottom buttons on that card with one that displays "View HD Image" and which opens a new tab with that HD Image.
 
@@ -24,7 +24,4 @@ In this practical portion, you'll make a number of updates to this app.
 
 10.  On the canvas page, draw a blue circle on a red background.
 
-
-
-
-
+11.  On the canvas page, add menu link.
