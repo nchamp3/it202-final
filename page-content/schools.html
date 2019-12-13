@@ -2,7 +2,18 @@
 
 
 <!-- add a select control to let users choose a school category;  you can hard-code the options or dynamically populate them from the primaryCategories variable below-->
-
+<div class="form-check" id="upcoming-movies-check">
+  <input type="checkbox" class="form-check-input" id='es' checked="checked">
+  <label class="form-check-label active" for="exampleCheck1">ES</label>
+</div>
+<div class="form-check" id="upcoming-movies-check">
+  <input type="checkbox" class="form-check-input" id='hs' checked="checked">
+  <label class="form-check-label active" for="exampleCheck2">HS</label>
+</div>
+<div class="form-check" id="upcoming-movies-check">
+  <input type="checkbox" class="form-check-input" id='ms' checked="checked">
+  <label class="form-check-label active" for="exampleCheck3">MS</label>
+</div>
 
 <button id="searchSchools" class="mdc-button mdc-button--raised">
   <div class="mdc-button__ripple"></div>
@@ -17,22 +28,51 @@
 
 
 <ul id="listSchools" class="mdc-list demo-list mdc-list--two-line mdc-list--avatar-list" id="customers">
-    <li class="mdc-list-item mdc-ripple-upgraded template">
-        <span class="mdc-list-item__text">
-            <span class="mdc-list-item__primary-text"></span>
-            <span class="mdc-list-item__secondary-text"></span></span></li>
-    <li role="separator" class="mdc-list-divider template"></li>
-  </ul> 
+  <li class="mdc-list-item mdc-ripple-upgraded template">
+    <span class="mdc-list-item__text">
+      <span class="mdc-list-item__primary-text"></span>
+      <span class="mdc-list-item__secondary-text"></span></span></li>
+  <li role="separator" class="mdc-list-divider template"></li>
+</ul>
 
 
 
 
 <script>
-  var primaryCategories = [{"primary_category":"ES"}
-,{"primary_category":"HS"}
-,{"primary_category":"MS"}];
+  const checkbox = document.querySelector('.form-check').MDCFormCheck;
+  var primaryCategories = [{
+    "primary_category": "ES"
+  }, {
+    "primary_category": "HS"
+  }, {
+    "primary_category": "MS"
+  }];
+
+  let isESBoxChecked = document.getElementById('es').checked;
+  let isHSBoxChecked = document.getElementById('hs').checked;
+  let isMSBoxChecked = document.getElementById('ms').checked;
 
   let endpoint = "https://data.cityofchicago.org/resource/kh4r-387c.json?";
+  if (isESBoxChecked || isHSBoxChecked || isMSBoxChecked) {
+    endpoint += "$WHERE=";
+  }
+  if(isESBoxChecked)
+  {
+    endpoint += "primary_category=\"ES\"";
+    if (isHSBoxChecked || isMSBoxChecked)
+      endpoint += " OR ";
+  }
+  if(isMSBoxChecked)
+  {
+    endpoint += "primary_category=\"MS\"";
+    if (isHSBoxChecked)
+      endpoint += " OR ";
+  }
+  if(isHSBoxChecked)
+  {
+    endpoint += "primary_category=\"HS\"";
+  }
+
 
 
   let limit = 50;
@@ -48,13 +88,16 @@
 
 
   let getSchools = () => {
-    let url = endpoint + "$limit=" + limit;
+    // let url = endpoint + "$limit=" + limit;
+    let url = endpoint;
+    console.log(url);
+    console.log(isESBoxChecked);
 
     let divider = $("ul#listSchools .mdc-list-divider.template");
 
     $.get(url, (response) => {
       console.log(response);
-      $.each(response, (i,v) => {
+      $.each(response, (i, v) => {
         // clone template
         let clone = $("ul#listSchools .mdc-list-item.template").clone();
 
@@ -65,20 +108,17 @@
         dividerClone.removeClass("template");
 
         // set values
-        clone.find(".mdc-list-item__primary-text").text(v.long_name)
+        clone.find(".mdc-list-item__primary-text").text(v.school_id);
+        clone.find(".mdc-list-item__secondary-text").text(v.address);
 
 
         // append to list
         $("ul#listSchools").append(dividerClone);
-        
-        
+
+
         $("ul#listSchools").append(clone);
 
       });
     });
   }
-
-
-
-
 </script>
